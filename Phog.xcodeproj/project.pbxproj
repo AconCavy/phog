@@ -1,0 +1,605 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FE00CF9E26C3195400C9C850 /* PhogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE00CF9D26C3195400C9C850 /* PhogApp.swift */; };
+		FE00CFA026C3195400C9C850 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE00CF9F26C3195400C9C850 /* ContentView.swift */; };
+		FE00CFA226C3195500C9C850 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE00CFA126C3195500C9C850 /* Assets.xcassets */; };
+		FE00CFA526C3195500C9C850 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE00CFA426C3195500C9C850 /* Preview Assets.xcassets */; };
+		FE00CFAF26C3195500C9C850 /* PhogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE00CFAE26C3195500C9C850 /* PhogTests.swift */; };
+		FE00CFB926C3195500C9C850 /* PhogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE00CFB826C3195500C9C850 /* PhogUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FE00CFAB26C3195500C9C850 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE00CF9226C3195400C9C850 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE00CF9926C3195400C9C850;
+			remoteInfo = Phog;
+		};
+		FE00CFB526C3195500C9C850 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE00CF9226C3195400C9C850 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE00CF9926C3195400C9C850;
+			remoteInfo = Phog;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FE00CF9A26C3195400C9C850 /* Phog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Phog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE00CF9D26C3195400C9C850 /* PhogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhogApp.swift; sourceTree = "<group>"; };
+		FE00CF9F26C3195400C9C850 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FE00CFA126C3195500C9C850 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FE00CFA426C3195500C9C850 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FE00CFAA26C3195500C9C850 /* PhogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE00CFAE26C3195500C9C850 /* PhogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhogTests.swift; sourceTree = "<group>"; };
+		FE00CFB426C3195500C9C850 /* PhogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE00CFB826C3195500C9C850 /* PhogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhogUITests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FE00CF9726C3195400C9C850 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE00CFA726C3195500C9C850 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE00CFB126C3195500C9C850 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FE00CF9126C3195400C9C850 = {
+			isa = PBXGroup;
+			children = (
+				FE00CF9C26C3195400C9C850 /* Phog */,
+				FE00CFAD26C3195500C9C850 /* PhogTests */,
+				FE00CFB726C3195500C9C850 /* PhogUITests */,
+				FE00CF9B26C3195400C9C850 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FE00CF9B26C3195400C9C850 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FE00CF9A26C3195400C9C850 /* Phog.app */,
+				FE00CFAA26C3195500C9C850 /* PhogTests.xctest */,
+				FE00CFB426C3195500C9C850 /* PhogUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FE00CF9C26C3195400C9C850 /* Phog */ = {
+			isa = PBXGroup;
+			children = (
+				FE00CF9D26C3195400C9C850 /* PhogApp.swift */,
+				FE00CF9F26C3195400C9C850 /* ContentView.swift */,
+				FE00CFA126C3195500C9C850 /* Assets.xcassets */,
+				FE00CFA326C3195500C9C850 /* Preview Content */,
+			);
+			path = Phog;
+			sourceTree = "<group>";
+		};
+		FE00CFA326C3195500C9C850 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				FE00CFA426C3195500C9C850 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FE00CFAD26C3195500C9C850 /* PhogTests */ = {
+			isa = PBXGroup;
+			children = (
+				FE00CFAE26C3195500C9C850 /* PhogTests.swift */,
+			);
+			path = PhogTests;
+			sourceTree = "<group>";
+		};
+		FE00CFB726C3195500C9C850 /* PhogUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FE00CFB826C3195500C9C850 /* PhogUITests.swift */,
+			);
+			path = PhogUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FE00CF9926C3195400C9C850 /* Phog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE00CFBC26C3195500C9C850 /* Build configuration list for PBXNativeTarget "Phog" */;
+			buildPhases = (
+				FE00CF9626C3195400C9C850 /* Sources */,
+				FE00CF9726C3195400C9C850 /* Frameworks */,
+				FE00CF9826C3195400C9C850 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Phog;
+			productName = Phog;
+			productReference = FE00CF9A26C3195400C9C850 /* Phog.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FE00CFA926C3195500C9C850 /* PhogTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE00CFBF26C3195500C9C850 /* Build configuration list for PBXNativeTarget "PhogTests" */;
+			buildPhases = (
+				FE00CFA626C3195500C9C850 /* Sources */,
+				FE00CFA726C3195500C9C850 /* Frameworks */,
+				FE00CFA826C3195500C9C850 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FE00CFAC26C3195500C9C850 /* PBXTargetDependency */,
+			);
+			name = PhogTests;
+			productName = PhogTests;
+			productReference = FE00CFAA26C3195500C9C850 /* PhogTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FE00CFB326C3195500C9C850 /* PhogUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE00CFC226C3195500C9C850 /* Build configuration list for PBXNativeTarget "PhogUITests" */;
+			buildPhases = (
+				FE00CFB026C3195500C9C850 /* Sources */,
+				FE00CFB126C3195500C9C850 /* Frameworks */,
+				FE00CFB226C3195500C9C850 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FE00CFB626C3195500C9C850 /* PBXTargetDependency */,
+			);
+			name = PhogUITests;
+			productName = PhogUITests;
+			productReference = FE00CFB426C3195500C9C850 /* PhogUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FE00CF9226C3195400C9C850 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
+				TargetAttributes = {
+					FE00CF9926C3195400C9C850 = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					FE00CFA926C3195500C9C850 = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = FE00CF9926C3195400C9C850;
+					};
+					FE00CFB326C3195500C9C850 = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = FE00CF9926C3195400C9C850;
+					};
+				};
+			};
+			buildConfigurationList = FE00CF9526C3195400C9C850 /* Build configuration list for PBXProject "Phog" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FE00CF9126C3195400C9C850;
+			productRefGroup = FE00CF9B26C3195400C9C850 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FE00CF9926C3195400C9C850 /* Phog */,
+				FE00CFA926C3195500C9C850 /* PhogTests */,
+				FE00CFB326C3195500C9C850 /* PhogUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FE00CF9826C3195400C9C850 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE00CFA526C3195500C9C850 /* Preview Assets.xcassets in Resources */,
+				FE00CFA226C3195500C9C850 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE00CFA826C3195500C9C850 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE00CFB226C3195500C9C850 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FE00CF9626C3195400C9C850 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE00CFA026C3195400C9C850 /* ContentView.swift in Sources */,
+				FE00CF9E26C3195400C9C850 /* PhogApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE00CFA626C3195500C9C850 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE00CFAF26C3195500C9C850 /* PhogTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE00CFB026C3195500C9C850 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE00CFB926C3195500C9C850 /* PhogUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FE00CFAC26C3195500C9C850 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE00CF9926C3195400C9C850 /* Phog */;
+			targetProxy = FE00CFAB26C3195500C9C850 /* PBXContainerItemProxy */;
+		};
+		FE00CFB626C3195500C9C850 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE00CF9926C3195400C9C850 /* Phog */;
+			targetProxy = FE00CFB526C3195500C9C850 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		FE00CFBA26C3195500C9C850 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FE00CFBB26C3195500C9C850 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		FE00CFBD26C3195500C9C850 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Phog/Preview Content\"";
+				DEVELOPMENT_TEAM = 2NEZM946VD;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = acon.Phog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FE00CFBE26C3195500C9C850 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Phog/Preview Content\"";
+				DEVELOPMENT_TEAM = 2NEZM946VD;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = acon.Phog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FE00CFC026C3195500C9C850 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2NEZM946VD;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = acon.PhogTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Phog.app/Contents/MacOS/Phog";
+			};
+			name = Debug;
+		};
+		FE00CFC126C3195500C9C850 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2NEZM946VD;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = acon.PhogTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Phog.app/Contents/MacOS/Phog";
+			};
+			name = Release;
+		};
+		FE00CFC326C3195500C9C850 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2NEZM946VD;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = acon.PhogUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Phog;
+			};
+			name = Debug;
+		};
+		FE00CFC426C3195500C9C850 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2NEZM946VD;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = acon.PhogUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Phog;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FE00CF9526C3195400C9C850 /* Build configuration list for PBXProject "Phog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE00CFBA26C3195500C9C850 /* Debug */,
+				FE00CFBB26C3195500C9C850 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE00CFBC26C3195500C9C850 /* Build configuration list for PBXNativeTarget "Phog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE00CFBD26C3195500C9C850 /* Debug */,
+				FE00CFBE26C3195500C9C850 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE00CFBF26C3195500C9C850 /* Build configuration list for PBXNativeTarget "PhogTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE00CFC026C3195500C9C850 /* Debug */,
+				FE00CFC126C3195500C9C850 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE00CFC226C3195500C9C850 /* Build configuration list for PBXNativeTarget "PhogUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE00CFC326C3195500C9C850 /* Debug */,
+				FE00CFC426C3195500C9C850 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FE00CF9226C3195400C9C850 /* Project object */;
+}
