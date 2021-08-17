@@ -1,10 +1,3 @@
-//
-//  Logger.swift
-//  Logger
-//
-//  Created by Acon on 2021/08/18.
-//
-
 import Foundation
 
 struct Logger {
