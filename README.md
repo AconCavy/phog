@@ -1,6 +1,6 @@
 # Phog
 
-The Phog is GUI app of the [HelloPhotogrammetry](https://developer.apple.com/documentation/realitykit/creating_a_photogrammetry_command-line_app)
+The Phog is a GUI app to generate 3D models from images using RealityKit.
 
 ## Requirements
 
