@@ -1,5 +1,4 @@
 import Foundation
-import os
 import RealityKit
 
 struct Model {
@@ -44,10 +43,6 @@ struct Model {
         case invalidInput
         case invalidOutput
         case invalidFilename
-//        case invalidSampleOrdering
-//        case invalidFeatureSensitivity
-//        case invalidDetail
-//        case invalidGeometry
     }
     
     private static func makeConfiguration(sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering?, featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity?) -> PhotogrammetrySession.Configuration {
