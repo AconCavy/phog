@@ -1,59 +1,59 @@
 import Foundation
-import SwiftUI
 import RealityKit
+import SwiftUI
 
 class ContentViewModel: ObservableObject {
     @Published var model: Model = Model()
     @Published var logger: Logger = Logger()
     @Published var progress: Double = 0
-    
+
     let notSelected = "Not Selcted"
     let defaultFilename = "modelFile.usdz"
-    
+
     var isProcessing = false
-    
+
     public enum SampleOrdering: String, CaseIterable, Identifiable {
         case none
         case unordered
         case sequential
-        
+
         public var id: String { self.rawValue }
     }
-    
+
     public enum FeatureSensitivity: String, CaseIterable, Identifiable {
         case none
         case normal
         case hight
-        
+
         public var id: String { self.rawValue }
     }
-    
+
     public enum Detail: String, CaseIterable, Identifiable {
         case preview
         case reduced
         case medium
         case full
         case raw
-        
+
         public var id: String { self.rawValue }
     }
-    
+
     public var input: String {
         return model.input?.relativeString ?? notSelected
     }
-    
+
     public var output: String {
         return model.output?.relativeString ?? notSelected
     }
-    
+
     public func setInput(url: URL?) {
         model.input = url
     }
-    
+
     public func setOutput(url: URL?) {
         model.output = url
     }
-    
+
     public func setFilename(filename: String?) {
         if let tmp = filename {
             model.filename = tmp.isEmpty ? defaultFilename : tmp
@@ -61,7 +61,7 @@ class ContentViewModel: ObservableObject {
             model.filename = defaultFilename
         }
     }
-    
+
     public func setSampleOrdering(sampleOrdering: SampleOrdering) {
         switch sampleOrdering {
         case .none:
@@ -72,7 +72,7 @@ class ContentViewModel: ObservableObject {
             model.sampleOrdering = .sequential
         }
     }
-    
+
     public func setFeatureSensitivity(featureSensitivity: FeatureSensitivity) {
         switch featureSensitivity {
         case .none:
@@ -83,7 +83,7 @@ class ContentViewModel: ObservableObject {
             model.featureSensitivity = .high
         }
     }
-    
+
     public func setDetail(detail: Detail) {
         switch detail {
         case .preview:
@@ -98,15 +98,15 @@ class ContentViewModel: ObservableObject {
             model.detail = .raw
         }
     }
-    
+
     public func generatePhotogrammetry() {
         var maybeSession: PhotogrammetrySession? = nil
         var maybeRequest: PhotogrammetrySession.Request? = nil
-        
+
         if model.filename == nil {
             model.filename = defaultFilename
         }
-        
+
         do {
             maybeSession = try model.makeSession()
             maybeRequest = try model.makeRequest()
@@ -123,29 +123,30 @@ class ContentViewModel: ObservableObject {
             logger.error("Error: Failed to make a session and request")
             return
         }
-        
+
         guard let session = maybeSession else {
-            logger.error("Error: Failed to make session. Please check the minumum execution environment")
+            logger.error(
+                "Error: Failed to make session. Please check the minumum execution environment")
             return
         }
-        
+
         guard let request = maybeRequest else {
             logger.error("Error: Failed to make request. Please check the options")
             return
         }
-        
+
         let task = makeSessionTask(session: session)
         withExtendedLifetime((session, task)) {
             do {
                 logger.log("Log: Using request \(String(describing: request))")
                 isProcessing = true
-                try session.process(requests: [ request ])
+                try session.process(requests: [request])
             } catch {
                 logger.error("Error: \(String(describing: error))")
             }
         }
     }
-    
+
     private func makeSessionTask(session: PhotogrammetrySession) -> Task<Void, Never> {
         return Task {
             do {
@@ -180,8 +181,10 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
-    
-    private func handleRequestComplete(request: PhotogrammetrySession.Request, result: PhotogrammetrySession.Result) {
+
+    private func handleRequestComplete(
+        request: PhotogrammetrySession.Request, result: PhotogrammetrySession.Result
+    ) {
         logger.log("Log: Request complete: \(String(describing: request)) with result...")
         switch result {
         case .modelFile(let url):
@@ -190,8 +193,10 @@ class ContentViewModel: ObservableObject {
             logger.warning("Warning: Unexpected result, \(String(describing: result))")
         }
     }
-    
-    private func handleRequestProgress(request: PhotogrammetrySession.Request, fractionComplete: Double) {
+
+    private func handleRequestProgress(
+        request: PhotogrammetrySession.Request, fractionComplete: Double
+    ) {
         progress = fractionComplete
     }
 }
