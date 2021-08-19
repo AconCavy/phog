@@ -19,9 +19,11 @@
 		FE1CB52426CEA11B00980761 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1CB52326CEA11B00980761 /* Detail.swift */; };
 		FE1CB52626CEA13D00980761 /* FeatureSensitivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1CB52526CEA13D00980761 /* FeatureSensitivity.swift */; };
 		FE1F105326CEAFE1006FAD0C /* OptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F105226CEAFE1006FAD0C /* OptionError.swift */; };
-		FEC2CC6A26CC098E00FCB7F6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CC6926CC098E00FCB7F6 /* Logger.swift */; };
+		FE2BA66B26CEDB2900D31370 /* LogConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2BA66A26CEDB2900D31370 /* LogConsole.swift */; };
+		FE2BA66D26CEDE6B00D31370 /* LogConsoleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2BA66C26CEDE6B00D31370 /* LogConsoleTests.swift */; };
+		FE2BA67426CEE43500D31370 /* LogType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2BA67326CEE43500D31370 /* LogType.swift */; };
+		FEC2CC6A26CC098E00FCB7F6 /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CC6926CC098E00FCB7F6 /* Loggable.swift */; };
 		FEC3777726CC5857002B0F23 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC3777626CC5857002B0F23 /* ModelTests.swift */; };
-		FEC3777926CC6584002B0F23 /* LoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC3777826CC6584002B0F23 /* LoggerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,9 +59,11 @@
 		FE1CB52326CEA11B00980761 /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		FE1CB52526CEA13D00980761 /* FeatureSensitivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSensitivity.swift; sourceTree = "<group>"; };
 		FE1F105226CEAFE1006FAD0C /* OptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionError.swift; sourceTree = "<group>"; };
-		FEC2CC6926CC098E00FCB7F6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		FE2BA66A26CEDB2900D31370 /* LogConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogConsole.swift; sourceTree = "<group>"; };
+		FE2BA66C26CEDE6B00D31370 /* LogConsoleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogConsoleTests.swift; sourceTree = "<group>"; };
+		FE2BA67326CEE43500D31370 /* LogType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogType.swift; sourceTree = "<group>"; };
+		FEC2CC6926CC098E00FCB7F6 /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
 		FEC3777626CC5857002B0F23 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
-		FEC3777826CC6584002B0F23 /* LoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				FEC3777626CC5857002B0F23 /* ModelTests.swift */,
-				FEC3777826CC6584002B0F23 /* LoggerTests.swift */,
+				FE2BA66C26CEDE6B00D31370 /* LogConsoleTests.swift */,
 			);
 			path = PhogTests;
 			sourceTree = "<group>";
@@ -157,12 +161,22 @@
 			path = Options;
 			sourceTree = "<group>";
 		};
+		FE2BA67026CEE39900D31370 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				FEC2CC6926CC098E00FCB7F6 /* Loggable.swift */,
+				FE2BA66A26CEDB2900D31370 /* LogConsole.swift */,
+				FE2BA67326CEE43500D31370 /* LogType.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
 		FEF5112126C3572000A01906 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FE2BA67026CEE39900D31370 /* Logging */,
 				FE1CB52226CEA0F100980761 /* Options */,
 				FE00CFC526C3199E00C9C850 /* PhotogrammetryModel.swift */,
-				FEC2CC6926CC098E00FCB7F6 /* Logger.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -314,8 +328,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE1CB52126CEA0C300980761 /* SampleOrdering.swift in Sources */,
-				FEC2CC6A26CC098E00FCB7F6 /* Logger.swift in Sources */,
+				FE2BA66B26CEDB2900D31370 /* LogConsole.swift in Sources */,
+				FEC2CC6A26CC098E00FCB7F6 /* Loggable.swift in Sources */,
 				FE1CB52426CEA11B00980761 /* Detail.swift in Sources */,
+				FE2BA67426CEE43500D31370 /* LogType.swift in Sources */,
 				FE1CB51F26CE9B3200980761 /* FileExtension.swift in Sources */,
 				FE00CFCB26C3307000C9C850 /* ContentViewModel.swift in Sources */,
 				FE00CFC626C3199E00C9C850 /* PhotogrammetryModel.swift in Sources */,
@@ -331,7 +347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEC3777726CC5857002B0F23 /* ModelTests.swift in Sources */,
-				FEC3777926CC6584002B0F23 /* LoggerTests.swift in Sources */,
+				FE2BA66D26CEDE6B00D31370 /* LogConsoleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
