@@ -1,0 +1,5 @@
+enum OptionError: Error {
+    case invalidInput
+    case invalidOutput
+    case invalidFilename
+}

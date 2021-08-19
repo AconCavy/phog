@@ -16,7 +16,7 @@ class ModelTests: XCTestCase {
         sut.input = nil
 
         XCTAssertThrowsError(try sut.makeSession()) { error in
-            XCTAssertEqual(error as! Model.OptionError, .invalidInput)
+            XCTAssertEqual(error as! OptionError, .invalidInput)
         }
     }
 
@@ -31,7 +31,7 @@ class ModelTests: XCTestCase {
         sut.output = nil
 
         XCTAssertThrowsError(try sut.makeRequest()) { error in
-            XCTAssertEqual(error as! Model.OptionError, .invalidOutput)
+            XCTAssertEqual(error as! OptionError, .invalidOutput)
         }
     }
 
@@ -40,12 +40,12 @@ class ModelTests: XCTestCase {
         sut.filename = nil
 
         XCTAssertThrowsError(try sut.makeRequest()) { error in
-            XCTAssertEqual(error as! Model.OptionError, .invalidFilename)
+            XCTAssertEqual(error as! OptionError, .invalidFilename)
         }
     }
 
-    func createDefaultModel() -> Model {
-        var model = Model()
+    func createDefaultModel() -> PhotogrammetryModel {
+        var model = PhotogrammetryModel()
         model.input = URL(fileURLWithPath: "./sample/", isDirectory: true)
         model.output = URL(fileURLWithPath: "./sample/", isDirectory: true)
         model.filename = "sample.usdz"

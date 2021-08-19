@@ -3,120 +3,35 @@ import RealityKit
 import SwiftUI
 
 class ContentViewModel: ObservableObject {
-    @Published var model: Model = Model()
+    static let defaultFilename = "modelFile"
+
     @Published var logger: Logger = Logger()
+    @Published var input: String = ""
+    @Published var output: String = ""
+    @Published var filename: String = defaultFilename
+    @Published var fileExtension = FileExtension.usdz
+    @Published var sampleOrdering = SampleOrdering.none
+    @Published var featureSensitivity = FeatureSensitivity.none
+    @Published var detail = Detail.medium
+    @Published var isProcessing = false
     @Published var progress: Double = 0
 
-    let notSelected = "Not Selcted"
-    let defaultFilename = "modelFile.usdz"
+    func generatePhotogrammetry() {
+        let model = makeModel()
 
-    var isProcessing = false
-
-    public enum SampleOrdering: String, CaseIterable, Identifiable {
-        case none
-        case unordered
-        case sequential
-
-        public var id: String { self.rawValue }
-    }
-
-    public enum FeatureSensitivity: String, CaseIterable, Identifiable {
-        case none
-        case normal
-        case hight
-
-        public var id: String { self.rawValue }
-    }
-
-    public enum Detail: String, CaseIterable, Identifiable {
-        case preview
-        case reduced
-        case medium
-        case full
-        case raw
-
-        public var id: String { self.rawValue }
-    }
-
-    public var input: String {
-        return model.input?.relativeString ?? notSelected
-    }
-
-    public var output: String {
-        return model.output?.relativeString ?? notSelected
-    }
-
-    public func setInput(url: URL?) {
-        model.input = url
-    }
-
-    public func setOutput(url: URL?) {
-        model.output = url
-    }
-
-    public func setFilename(filename: String?) {
-        if let tmp = filename {
-            model.filename = tmp.isEmpty ? defaultFilename : tmp
-        } else {
-            model.filename = defaultFilename
-        }
-    }
-
-    public func setSampleOrdering(sampleOrdering: SampleOrdering) {
-        switch sampleOrdering {
-        case .none:
-            model.sampleOrdering = nil
-        case .unordered:
-            model.sampleOrdering = .unordered
-        case .sequential:
-            model.sampleOrdering = .sequential
-        }
-    }
-
-    public func setFeatureSensitivity(featureSensitivity: FeatureSensitivity) {
-        switch featureSensitivity {
-        case .none:
-            model.featureSensitivity = nil
-        case .normal:
-            model.featureSensitivity = .normal
-        case .hight:
-            model.featureSensitivity = .high
-        }
-    }
-
-    public func setDetail(detail: Detail) {
-        switch detail {
-        case .preview:
-            model.detail = .preview
-        case .reduced:
-            model.detail = .reduced
-        case .medium:
-            model.detail = .medium
-        case .full:
-            model.detail = .full
-        case .raw:
-            model.detail = .raw
-        }
-    }
-
-    public func generatePhotogrammetry() {
         var maybeSession: PhotogrammetrySession? = nil
         var maybeRequest: PhotogrammetrySession.Request? = nil
-
-        if model.filename == nil {
-            model.filename = defaultFilename
-        }
 
         do {
             maybeSession = try model.makeSession()
             maybeRequest = try model.makeRequest()
-        } catch Model.OptionError.invalidInput {
+        } catch OptionError.invalidInput {
             logger.error("Error: The input is invalid. Please check the input.")
             return
-        } catch Model.OptionError.invalidOutput {
+        } catch OptionError.invalidOutput {
             logger.error("Error: The output is invalid. Please check the output.")
             return
-        } catch Model.OptionError.invalidFilename {
+        } catch OptionError.invalidFilename {
             logger.error("Error: The filename is invalid. Please check the filename.")
             return
         } catch {
@@ -145,6 +60,20 @@ class ContentViewModel: ObservableObject {
                 logger.error("Error: \(String(describing: error))")
             }
         }
+    }
+
+    private func makeModel() -> PhotogrammetryModel {
+        var model = PhotogrammetryModel()
+        model.input = URL(fileURLWithPath: input, isDirectory: true)
+        model.output = URL(fileURLWithPath: output, isDirectory: true)
+        model.filename =
+            (filename.isEmpty ? ContentViewModel.defaultFilename : filename)
+            + ".\(fileExtension.rawValue)"
+        model.sampleOrdering = sampleOrdering.map()
+        model.featureSensitivity = featureSensitivity.map()
+        model.detail = detail.map()
+
+        return model
     }
 
     private func makeSessionTask(session: PhotogrammetrySession) -> Task<Void, Never> {

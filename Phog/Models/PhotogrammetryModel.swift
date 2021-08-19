@@ -1,22 +1,23 @@
 import Foundation
 import RealityKit
 
-struct Model {
-    public var input: URL?
-    public var output: URL?
-    public var filename: String?
+struct PhotogrammetryModel {
+    var input: URL?
+    var output: URL?
+    var filename: String?
+    var sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering?
+    var featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity?
+    var detail: PhotogrammetrySession.Request.Detail?
+    var geometry: PhotogrammetrySession.Request.Geometry?
+}
 
-    public var sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering?
-    public var featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity?
-    public var detail: PhotogrammetrySession.Request.Detail?
-    public var geometry: PhotogrammetrySession.Request.Geometry?
-
+extension PhotogrammetryModel {
     public func makeSession() throws -> PhotogrammetrySession? {
         guard let input = input else {
             throw OptionError.invalidInput
         }
 
-        let configuration = Model.makeConfiguration(
+        let configuration = PhotogrammetryModel.makeConfiguration(
             sampleOrdering: self.sampleOrdering,
             featureSensitivity: self.featureSensitivity)
 
@@ -36,15 +37,9 @@ struct Model {
             throw OptionError.invalidFilename
         }
 
-        return Model.makeRequest(
+        return PhotogrammetryModel.makeRequest(
             output: output.appendingPathComponent(filename), detail: self.detail,
             geometry: self.geometry)
-    }
-
-    public enum OptionError: Error {
-        case invalidInput
-        case invalidOutput
-        case invalidFilename
     }
 
     private static func makeConfiguration(
