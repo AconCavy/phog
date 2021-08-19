@@ -63,17 +63,15 @@ class ContentViewModel: ObservableObject {
     }
 
     private func makeModel() -> PhotogrammetryModel {
-        var model = PhotogrammetryModel()
-        model.input = URL(fileURLWithPath: input, isDirectory: true)
-        model.output = URL(fileURLWithPath: output, isDirectory: true)
-        model.filename =
-            (filename.isEmpty ? ContentViewModel.defaultFilename : filename)
-            + ".\(fileExtension.rawValue)"
-        model.sampleOrdering = sampleOrdering.map()
-        model.featureSensitivity = featureSensitivity.map()
-        model.detail = detail.map()
+        let input = input.isEmpty ? nil : input
+        let output = output.isEmpty ? nil : output
+        let filename = filename.isEmpty ? ContentViewModel.defaultFilename : filename
+        let fileExtension = fileExtension.rawValue
 
-        return model
+        return PhotogrammetryModel(
+            input: input, output: output, filename: filename, fileExtension: fileExtension,
+            sampleOrdering: sampleOrdering.map(), featureSensitivity: featureSensitivity.map(),
+            detail: detail.map())
     }
 
     private func makeSessionTask(session: PhotogrammetrySession) -> Task<Void, Never> {

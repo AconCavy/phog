@@ -15,7 +15,7 @@ struct ContentView: View {
                 Text(viewModel.input.isEmpty ? ContentView.notSelected : viewModel.input)
                 Button("Select Input Directory") {
                     openDirectoryPicker { url in
-                        viewModel.input = url?.absoluteString ?? ""
+                        viewModel.input = url?.path ?? ""
                     }
                 }
             }
@@ -26,7 +26,7 @@ struct ContentView: View {
                 Text(viewModel.output.isEmpty ? ContentView.notSelected : viewModel.output)
                 Button("Select Output Directory") {
                     openDirectoryPicker { url in
-                        viewModel.output = url?.absoluteString ?? ""
+                        viewModel.output = url?.path ?? ""
                     }
                 }
             }

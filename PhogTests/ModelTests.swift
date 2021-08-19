@@ -13,10 +13,13 @@ class ModelTests: XCTestCase {
 
     func testMakeSessionThrowsInvalidInput() {
         var sut = createDefaultModel()
-        sut.input = nil
+        let paths: [String?] = [nil, getSampleDirectoryPath() + "/file"]
 
-        XCTAssertThrowsError(try sut.makeSession()) { error in
-            XCTAssertEqual(error as! OptionError, .invalidInput)
+        for path in paths {
+            sut.input = path
+            XCTAssertThrowsError(try sut.makeSession()) { error in
+                XCTAssertEqual(error as! OptionError, .invalidInput)
+            }
         }
     }
 
@@ -28,29 +31,33 @@ class ModelTests: XCTestCase {
 
     func testMakeRequestThrowsInvalidOutput() {
         var sut = createDefaultModel()
-        sut.output = nil
+        let paths: [String?] = [nil, getSampleDirectoryPath() + "/file"]
 
-        XCTAssertThrowsError(try sut.makeRequest()) { error in
-            XCTAssertEqual(error as! OptionError, .invalidOutput)
+        for path in paths {
+            sut.output = path
+            XCTAssertThrowsError(try sut.makeRequest()) { error in
+                XCTAssertEqual(error as! OptionError, .invalidOutput)
+            }
         }
     }
 
     func testMakeRequestThrowsInvalidFilename() {
         var sut = createDefaultModel()
-        sut.filename = nil
 
+        sut.filename = nil
         XCTAssertThrowsError(try sut.makeRequest()) { error in
             XCTAssertEqual(error as! OptionError, .invalidFilename)
         }
     }
 
-    func createDefaultModel() -> PhotogrammetryModel {
-        var model = PhotogrammetryModel()
-        model.input = URL(fileURLWithPath: "./sample/", isDirectory: true)
-        model.output = URL(fileURLWithPath: "./sample/", isDirectory: true)
-        model.filename = "sample.usdz"
+    private func createDefaultModel() -> PhotogrammetryModel {
+        let path = getSampleDirectoryPath()
+        return PhotogrammetryModel(
+            input: path, output: path, filename: "sample", fileExtension: "usdz")
+    }
 
-        return model
+    private func getSampleDirectoryPath() -> String {
+        return FileManager.default.temporaryDirectory.path
     }
 
 }

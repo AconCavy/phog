@@ -2,9 +2,10 @@ import Foundation
 import RealityKit
 
 struct PhotogrammetryModel {
-    var input: URL?
-    var output: URL?
+    var input: String?
+    var output: String?
     var filename: String?
+    var fileExtension: String?
     var sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering?
     var featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity?
     var detail: PhotogrammetrySession.Request.Detail?
@@ -12,8 +13,14 @@ struct PhotogrammetryModel {
 }
 
 extension PhotogrammetryModel {
-    public func makeSession() throws -> PhotogrammetrySession? {
+    func makeSession() throws -> PhotogrammetrySession? {
         guard let input = input else {
+            throw OptionError.invalidInput
+        }
+
+        let url = URL(fileURLWithPath: input, isDirectory: true)
+
+        if !existsDirectory(path: url.path) {
             throw OptionError.invalidInput
         }
 
@@ -22,14 +29,20 @@ extension PhotogrammetryModel {
             featureSensitivity: self.featureSensitivity)
 
         do {
-            return try PhotogrammetrySession(input: input, configuration: configuration)
+            return try PhotogrammetrySession(input: url, configuration: configuration)
         } catch {
             return nil
         }
     }
 
-    public func makeRequest() throws -> PhotogrammetrySession.Request {
+    func makeRequest() throws -> PhotogrammetrySession.Request {
         guard let output = output else {
+            throw OptionError.invalidOutput
+        }
+
+        var url = URL(fileURLWithPath: output, isDirectory: true)
+
+        if !existsDirectory(path: url.path) {
             throw OptionError.invalidOutput
         }
 
@@ -37,9 +50,14 @@ extension PhotogrammetryModel {
             throw OptionError.invalidFilename
         }
 
+        guard let fileExtension = fileExtension else {
+            throw OptionError.invalidFileExtension
+        }
+
+        url = url.appendingPathComponent(filename).appendingPathExtension(fileExtension)
+
         return PhotogrammetryModel.makeRequest(
-            output: output.appendingPathComponent(filename), detail: self.detail,
-            geometry: self.geometry)
+            output: url, detail: self.detail, geometry: self.geometry)
     }
 
     private static func makeConfiguration(
@@ -66,5 +84,11 @@ extension PhotogrammetryModel {
         default:
             return PhotogrammetrySession.Request.modelFile(url: output)
         }
+    }
+
+    private func existsDirectory(path: String) -> Bool {
+        var isDirectory: ObjCBool = false
+        return FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+            && isDirectory.boolValue
     }
 }
