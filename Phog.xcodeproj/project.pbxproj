@@ -23,7 +23,7 @@
 		FE2BA66D26CEDE6B00D31370 /* LogConsoleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2BA66C26CEDE6B00D31370 /* LogConsoleTests.swift */; };
 		FE2BA67426CEE43500D31370 /* LogType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2BA67326CEE43500D31370 /* LogType.swift */; };
 		FEC2CC6A26CC098E00FCB7F6 /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CC6926CC098E00FCB7F6 /* Loggable.swift */; };
-		FEC3777726CC5857002B0F23 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC3777626CC5857002B0F23 /* ModelTests.swift */; };
+		FEC3777726CC5857002B0F23 /* PhotogrammetryModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC3777626CC5857002B0F23 /* PhotogrammetryModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +63,7 @@
 		FE2BA66C26CEDE6B00D31370 /* LogConsoleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogConsoleTests.swift; sourceTree = "<group>"; };
 		FE2BA67326CEE43500D31370 /* LogType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogType.swift; sourceTree = "<group>"; };
 		FEC2CC6926CC098E00FCB7F6 /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
-		FEC3777626CC5857002B0F23 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		FEC3777626CC5857002B0F23 /* PhotogrammetryModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotogrammetryModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +135,7 @@
 		FE00CFAD26C3195500C9C850 /* PhogTests */ = {
 			isa = PBXGroup;
 			children = (
-				FEC3777626CC5857002B0F23 /* ModelTests.swift */,
+				FEC3777626CC5857002B0F23 /* PhotogrammetryModelTests.swift */,
 				FE2BA66C26CEDE6B00D31370 /* LogConsoleTests.swift */,
 			);
 			path = PhogTests;
@@ -346,7 +346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEC3777726CC5857002B0F23 /* ModelTests.swift in Sources */,
+				FEC3777726CC5857002B0F23 /* PhotogrammetryModelTests.swift in Sources */,
 				FE2BA66D26CEDE6B00D31370 /* LogConsoleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,7 +3,7 @@ import XCTest
 
 @testable import Phog
 
-class ModelTests: XCTestCase {
+class PhotogrammetryModelTests: XCTestCase {
 
     func testMakeSessionNoThrows() {
         let sut = createDefaultModel()
