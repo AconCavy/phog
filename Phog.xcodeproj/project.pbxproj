@@ -62,6 +62,7 @@
 		FE2BA66A26CEDB2900D31370 /* LogConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogConsole.swift; sourceTree = "<group>"; };
 		FE2BA66C26CEDE6B00D31370 /* LogConsoleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogConsoleTests.swift; sourceTree = "<group>"; };
 		FE2BA67326CEE43500D31370 /* LogType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogType.swift; sourceTree = "<group>"; };
+		FE32E1D026CF3B1B00B2C8F8 /* Phog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Phog.entitlements; sourceTree = "<group>"; };
 		FEC2CC6926CC098E00FCB7F6 /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
 		FEC3777626CC5857002B0F23 /* PhotogrammetryModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotogrammetryModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +115,7 @@
 		FE00CF9C26C3195400C9C850 /* Phog */ = {
 			isa = PBXGroup;
 			children = (
+				FE32E1D026CF3B1B00B2C8F8 /* Phog.entitlements */,
 				FEF5112126C3572000A01906 /* Models */,
 				FEF5112326C3577500A01906 /* Views */,
 				FEF5112226C3576400A01906 /* ViewModels */,
@@ -495,6 +497,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Phog/Phog.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -527,6 +530,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Phog/Phog.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
