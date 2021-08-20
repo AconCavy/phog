@@ -53,7 +53,6 @@ class ContentViewModel: ObservableObject {
         withExtendedLifetime((session, task)) {
             do {
                 logger.log("Using request \(String(describing: request))")
-                isProcessing = true
                 try session.process(requests: [request])
             } catch {
                 logger.error(String(describing: error))
@@ -75,6 +74,7 @@ class ContentViewModel: ObservableObject {
 
     private func makeSessionTask(session: PhotogrammetrySession) -> Task<Void, Never> {
         return Task {
+            isProcessing = true
             do {
                 for try await output in session.outputs {
                     switch output {
@@ -104,6 +104,7 @@ class ContentViewModel: ObservableObject {
                 }
             } catch {
                 logger.error(String(describing: error))
+                isProcessing = false
             }
         }
     }

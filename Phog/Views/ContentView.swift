@@ -79,12 +79,12 @@ struct ContentView: View {
             }
 
             Group {
-                Button("Generate") {
-                    viewModel.generatePhotogrammetry()
-                }
-
                 if viewModel.isProcessing {
                     ProgressView("Processing...", value: viewModel.progress)
+                } else {
+                    Button("Generate") {
+                        viewModel.generatePhotogrammetry()
+                    }
                 }
             }
 
@@ -107,7 +107,6 @@ struct ContentView: View {
                             switch type {
                             case .log:
                                 Text(message)
-                                    .foregroundColor(Color.white)
                             case .warning:
                                 Text(message)
                                     .foregroundColor(Color.yellow)
