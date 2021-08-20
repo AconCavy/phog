@@ -2,7 +2,7 @@ import os
 
 struct LogConsole: Loggable {
     var output: [(LogType, String)] = []
-    private let logger = Logger(subsystem: "acon.phog", category: "Phog")
+    private let logger = Logger(subsystem: "dev.aconcavy.Phog", category: "Phog")
 
     mutating func log(_ message: String) {
         let formatted = "Log: \(message)"
