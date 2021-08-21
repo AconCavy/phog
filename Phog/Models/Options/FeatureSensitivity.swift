@@ -3,7 +3,7 @@ import RealityKit
 enum FeatureSensitivity: String, CaseIterable, Identifiable {
     case none
     case normal
-    case hight
+    case high
 
     var id: String { self.rawValue }
 }
@@ -21,7 +21,7 @@ extension FeatureSensitivity {
             return nil
         case .normal:
             return .normal
-        case .hight:
+        case .high:
             return .high
         }
     }
