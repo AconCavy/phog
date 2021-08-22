@@ -4,60 +4,57 @@ import XCTest
 @testable import Phog
 
 class PhotogrammetryModelTests: XCTestCase {
+    var sampleDirectoryURL: URL = URL(fileURLWithPath: "")
+    var sampleFileURL: URL = URL(fileURLWithPath: "")
+    var sampleFilename: String = "file"
 
-    func testMakeSessionNoThrows() {
-        let sut = createDefaultModel()
-
-        XCTAssertNoThrow(try sut.makeSession())
+    override func setUp() {
+        sampleDirectoryURL = FileManager.default.temporaryDirectory
+        sampleFileURL = sampleDirectoryURL.appendingPathComponent(sampleFilename)
     }
 
-    func testMakeSessionThrowsInvalidInput() {
-        var sut = createDefaultModel()
-        let paths: [String?] = [nil, getSampleDirectoryPath() + "/file"]
+    func testInitNoThrows() {
+        let input = sampleDirectoryURL
+        let output = sampleDirectoryURL
+        let filename = sampleFilename
+        XCTAssertNoThrow(
+            try PhotogrammetryModel(
+                input: input, output: output, filename: filename, fileExtension: .usdz))
+    }
 
-        for path in paths {
-            sut.input = path
-            XCTAssertThrowsError(try sut.makeSession()) { error in
-                XCTAssertEqual(error as! OptionError, .invalidInput)
-            }
+    func testInitThrowsInvalidInput() {
+        let input = sampleFileURL
+        let output = sampleDirectoryURL
+        let filename = sampleFilename
+        XCTAssertThrowsError(
+            try PhotogrammetryModel(
+                input: input, output: output, filename: filename, fileExtension: .usdz)
+        ) { error in
+            XCTAssertEqual(error as! OptionError, .invalidInput)
         }
     }
 
-    func testMakeRequestNoThrows() {
-        let sut = createDefaultModel()
-
-        XCTAssertNoThrow(try sut.makeRequest())
-    }
-
-    func testMakeRequestThrowsInvalidOutput() {
-        var sut = createDefaultModel()
-        let paths: [String?] = [nil, getSampleDirectoryPath() + "/file"]
-
-        for path in paths {
-            sut.output = path
-            XCTAssertThrowsError(try sut.makeRequest()) { error in
-                XCTAssertEqual(error as! OptionError, .invalidOutput)
-            }
+    func testInitThrowsInvalidOutput() {
+        let input = sampleDirectoryURL
+        let output = sampleFileURL
+        let filename = sampleFilename
+        XCTAssertThrowsError(
+            try PhotogrammetryModel(
+                input: input, output: output, filename: filename, fileExtension: .usdz)
+        ) { error in
+            XCTAssertEqual(error as! OptionError, .invalidOutput)
         }
     }
 
-    func testMakeRequestThrowsInvalidFilename() {
-        var sut = createDefaultModel()
-
-        sut.filename = nil
-        XCTAssertThrowsError(try sut.makeRequest()) { error in
+    func testInitThrowsInvalidFilename() {
+        let input = sampleDirectoryURL
+        let output = sampleDirectoryURL
+        let filename = ""
+        XCTAssertThrowsError(
+            try PhotogrammetryModel(
+                input: input, output: output, filename: filename, fileExtension: .usdz)
+        ) { error in
             XCTAssertEqual(error as! OptionError, .invalidFilename)
         }
     }
-
-    private func createDefaultModel() -> PhotogrammetryModel {
-        let path = getSampleDirectoryPath()
-        return PhotogrammetryModel(
-            input: path, output: path, filename: "sample", fileExtension: "usdz")
-    }
-
-    private func getSampleDirectoryPath() -> String {
-        return FileManager.default.temporaryDirectory.path
-    }
-
 }

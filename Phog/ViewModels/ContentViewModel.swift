@@ -6,8 +6,8 @@ class ContentViewModel: ObservableObject {
     static let defaultFilename = "modelFile"
 
     @Published var logger = LogConsole()
-    @Published var input: String = ""
-    @Published var output: String = ""
+    @Published var input: URL?
+    @Published var output: URL?
     @Published var filename: String = defaultFilename
     @Published var fileExtension = FileExtension.usdz
     @Published var sampleOrdering = SampleOrdering.none
@@ -17,14 +17,9 @@ class ContentViewModel: ObservableObject {
     @Published var progress: Double = 0
 
     func generatePhotogrammetry() {
-        let model = makeModel()
-
-        var maybeSession: PhotogrammetrySession? = nil
-        var maybeRequest: PhotogrammetrySession.Request? = nil
-
+        let model: PhotogrammetryModel
         do {
-            maybeSession = try model.makeSession()
-            maybeRequest = try model.makeRequest()
+            model = try makeModel()
         } catch OptionError.invalidInput {
             logger.error("The input is invalid. Please check the input.")
             return
@@ -35,19 +30,19 @@ class ContentViewModel: ObservableObject {
             logger.error("The filename is invalid. Please check the filename.")
             return
         } catch {
-            logger.error("Failed to make a session and request")
+            logger.error("Unknown error. Please check parameters.")
             return
         }
 
-        guard let session = maybeSession else {
+        let session: PhotogrammetrySession
+        do {
+            session = try model.makeSession()
+        } catch {
             logger.error("Failed to make session. Please check the minumum execution environment")
             return
         }
 
-        guard let request = maybeRequest else {
-            logger.error("Failed to make request. Please check the options")
-            return
-        }
+        let request = model.makeRequest()
 
         let task = makeSessionTask(session: session)
         withExtendedLifetime((session, task)) {
@@ -60,13 +55,18 @@ class ContentViewModel: ObservableObject {
         }
     }
 
-    private func makeModel() -> PhotogrammetryModel {
-        let input = input.isEmpty ? nil : input
-        let output = output.isEmpty ? nil : output
-        let filename = filename.isEmpty ? ContentViewModel.defaultFilename : filename
-        let fileExtension = fileExtension.rawValue
+    private func makeModel() throws -> PhotogrammetryModel {
+        guard let input = input else {
+            throw OptionError.invalidInput
+        }
 
-        return PhotogrammetryModel(
+        guard let output = output else {
+            throw OptionError.invalidOutput
+        }
+
+        let filename = filename.isEmpty ? ContentViewModel.defaultFilename : filename
+
+        return try PhotogrammetryModel(
             input: input, output: output, filename: filename, fileExtension: fileExtension,
             sampleOrdering: sampleOrdering.map(), featureSensitivity: featureSensitivity.map(),
             detail: detail.map())

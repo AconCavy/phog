@@ -12,10 +12,10 @@ struct ContentView: View {
             Group {
                 Text("Input Directory")
                     .bold()
-                Text(viewModel.input.isEmpty ? ContentView.notSelected : viewModel.input)
+                Text(viewModel.input?.path ?? ContentView.notSelected)
                 Button("Select Input Directory") {
                     openDirectoryPicker { url in
-                        viewModel.input = url?.path ?? ""
+                        viewModel.input = url
                     }
                 }
             }
@@ -23,10 +23,10 @@ struct ContentView: View {
             Group {
                 Text("Output Directory")
                     .bold()
-                Text(viewModel.output.isEmpty ? ContentView.notSelected : viewModel.output)
+                Text(viewModel.output?.path ?? ContentView.notSelected)
                 Button("Select Output Directory") {
                     openDirectoryPicker { url in
-                        viewModel.output = url?.path ?? ""
+                        viewModel.output = url
                     }
                 }
             }

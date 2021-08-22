@@ -2,59 +2,58 @@ import Foundation
 import RealityKit
 
 struct PhotogrammetryModel {
-    var input: String?
-    var output: String?
-    var filename: String?
-    var fileExtension: String?
+    let input: URL
+    let output: URL
+    let filename: String
+    let fileExtension: FileExtension
     var sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering?
     var featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity?
     var detail: PhotogrammetrySession.Request.Detail?
     var geometry: PhotogrammetrySession.Request.Geometry?
+
+    init(
+        input: URL, output: URL, filename: String, fileExtension: FileExtension,
+        sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering? = nil,
+        featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity? = nil,
+        detail: PhotogrammetrySession.Request.Detail? = nil,
+        geometry: PhotogrammetrySession.Request.Geometry? = nil
+    ) throws {
+
+        self.input = input
+        self.output = output
+        self.filename = filename
+        self.fileExtension = fileExtension
+        self.sampleOrdering = sampleOrdering
+        self.featureSensitivity = featureSensitivity
+        self.detail = detail
+        self.geometry = geometry
+
+        if !existsDirectory(path: self.input.path) {
+            throw OptionError.invalidInput
+        }
+
+        if !existsDirectory(path: self.output.path) {
+            throw OptionError.invalidOutput
+        }
+
+        if self.filename.isEmpty {
+            throw OptionError.invalidFilename
+        }
+    }
 }
 
 extension PhotogrammetryModel {
-    func makeSession() throws -> PhotogrammetrySession? {
-        guard let input = input else {
-            throw OptionError.invalidInput
-        }
-
-        let url = URL(fileURLWithPath: input, isDirectory: true)
-
-        if !existsDirectory(path: url.path) {
-            throw OptionError.invalidInput
-        }
-
+    func makeSession() throws -> PhotogrammetrySession {
         let configuration = PhotogrammetryModel.makeConfiguration(
             sampleOrdering: self.sampleOrdering,
             featureSensitivity: self.featureSensitivity)
 
-        do {
-            return try PhotogrammetrySession(input: url, configuration: configuration)
-        } catch {
-            return nil
-        }
+        return try PhotogrammetrySession(input: self.input, configuration: configuration)
     }
 
-    func makeRequest() throws -> PhotogrammetrySession.Request {
-        guard let output = output else {
-            throw OptionError.invalidOutput
-        }
-
-        var url = URL(fileURLWithPath: output, isDirectory: true)
-
-        if !existsDirectory(path: url.path) {
-            throw OptionError.invalidOutput
-        }
-
-        guard let filename = filename else {
-            throw OptionError.invalidFilename
-        }
-
-        guard let fileExtension = fileExtension else {
-            throw OptionError.invalidFileExtension
-        }
-
-        url = url.appendingPathComponent(filename).appendingPathExtension(fileExtension)
+    func makeRequest() -> PhotogrammetrySession.Request {
+        let url = output.appendingPathComponent(filename).appendingPathExtension(
+            fileExtension.rawValue)
 
         return PhotogrammetryModel.makeRequest(
             output: url, detail: self.detail, geometry: self.geometry)
@@ -76,14 +75,12 @@ extension PhotogrammetryModel {
         geometry: PhotogrammetrySession.Request.Geometry?
     ) -> PhotogrammetrySession.Request {
 
-        switch (detail, geometry) {
-        case let (.some(d), .some(g)):
-            return PhotogrammetrySession.Request.modelFile(url: output, detail: d, geometry: g)
-        case let (.some(d), nil):
-            return PhotogrammetrySession.Request.modelFile(url: output, detail: d)
-        default:
-            return PhotogrammetrySession.Request.modelFile(url: output)
+        if let detail = detail {
+            return PhotogrammetrySession.Request.modelFile(
+                url: output, detail: detail, geometry: geometry)
         }
+
+        return PhotogrammetrySession.Request.modelFile(url: output, geometry: geometry)
     }
 
     private func existsDirectory(path: String) -> Bool {
