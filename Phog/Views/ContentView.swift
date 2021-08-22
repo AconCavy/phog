@@ -81,9 +81,13 @@ struct ContentView: View {
             Group {
                 if viewModel.isProcessing {
                     ProgressView("Processing...", value: viewModel.progress)
+                    Button("Cancel") {
+                        viewModel.cancelGeneration()
+                    }
+                    .disabled(viewModel.isCancelling)
                 } else {
                     Button("Generate") {
-                        viewModel.generatePhotogrammetry()
+                        viewModel.runGeneration()
                     }
                 }
             }

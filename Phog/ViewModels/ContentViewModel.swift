@@ -14,9 +14,12 @@ class ContentViewModel: ObservableObject {
     @Published var featureSensitivity = FeatureSensitivity.none
     @Published var detail = Detail.medium
     @Published var isProcessing = false
+    @Published var isCancelling = false
     @Published var progress: Double = 0
 
-    func generatePhotogrammetry() {
+    var session: PhotogrammetrySession?
+
+    func runGeneration() {
         let model: PhotogrammetryModel
         do {
             model = try makeModel()
@@ -35,6 +38,7 @@ class ContentViewModel: ObservableObject {
         }
 
         let session: PhotogrammetrySession
+
         do {
             session = try model.makeSession()
         } catch {
@@ -42,17 +46,33 @@ class ContentViewModel: ObservableObject {
             return
         }
 
-        let request = model.makeRequest()
-
+        logger.log("Start to processing...")
+        self.isProcessing = true
+        self.session = session
         let task = makeSessionTask(session: session)
         withExtendedLifetime((session, task)) {
             do {
+                let request = model.makeRequest()
                 logger.log("Using request \(String(describing: request))")
                 try session.process(requests: [request])
             } catch {
                 logger.error(String(describing: error))
             }
         }
+    }
+
+    func cancelGeneration() {
+        guard !isCancelling else {
+            return
+        }
+
+        guard let session = session, session.isProcessing else {
+            return
+        }
+
+        logger.log("Cancel to processing...")
+        self.isCancelling = true
+        session.cancel()
     }
 
     private func makeModel() throws -> PhotogrammetryModel {
@@ -74,37 +94,40 @@ class ContentViewModel: ObservableObject {
 
     private func makeSessionTask(session: PhotogrammetrySession) -> Task<Void, Never> {
         return Task {
-            isProcessing = true
             do {
                 for try await output in session.outputs {
-                    switch output {
-                    case .processingComplete:
-                        logger.log("Processing was completed!")
-                        isProcessing = false
-                    case .requestError(let request, let error):
-                        logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
-                    case .requestComplete(let request, let result):
-                        handleRequestComplete(request: request, result: result)
-                    case .requestProgress(let request, let fractionComplete):
-                        handleRequestProgress(request: request, fractionComplete: fractionComplete)
-                    case .inputComplete:
-                        logger.log("Data ingestion is completed. Beginning processing...")
-                    case .invalidSample(let id, let reason):
-                        logger.warning("Invalid Sample! id=\(id) reason=\"\(reason)\"")
-                    case .skippedSample(let id):
-                        logger.warning("Sample id=\(id) was skipped by processing.")
-                    case .automaticDownsampling:
-                        logger.warning("Automatic downsampling was applied!")
-                    case .processingCancelled:
-                        logger.warning("Processing was cancelled.")
-                        isProcessing = false
-                    @unknown default:
-                        logger.error("Unhandled message: \(output.localizedDescription)")
+                    await MainActor.run {
+                        switch output {
+                        case .processingComplete:
+                            logger.log("Processing was completed!")
+                            resetStatus()
+                        case .requestError(let request, let error):
+                            logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
+                        case .requestComplete(let request, let result):
+                            handleRequestComplete(request: request, result: result)
+                        case .requestProgress(let request, let fractionComplete):
+                            handleRequestProgress(request: request, fractionComplete: fractionComplete)
+                        case .inputComplete:
+                            logger.log("Data ingestion is completed. Beginning processing...")
+                        case .invalidSample(let id, let reason):
+                            logger.warning("Invalid Sample! id=\(id) reason=\"\(reason)\"")
+                        case .skippedSample(let id):
+                            logger.warning("Sample id=\(id) was skipped by processing.")
+                        case .automaticDownsampling:
+                            logger.warning("Automatic downsampling was applied!")
+                        case .processingCancelled:
+                            logger.warning("Processing was cancelled.")
+                            resetStatus()
+                        @unknown default:
+                            logger.error("Unhandled message: \(output.localizedDescription)")
+                        }
                     }
                 }
             } catch {
-                logger.error(String(describing: error))
-                isProcessing = false
+                await MainActor.run {
+                    logger.error(String(describing: error))
+                    resetStatus()
+                }
             }
         }
     }
@@ -124,6 +147,12 @@ class ContentViewModel: ObservableObject {
     private func handleRequestProgress(
         request: PhotogrammetrySession.Request, fractionComplete: Double
     ) {
-        progress = fractionComplete
+        self.progress = fractionComplete
+    }
+
+    private func resetStatus() {
+        self.isProcessing = false
+        self.isCancelling = false
+        self.progress = 0
     }
 }
