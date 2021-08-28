@@ -97,26 +97,27 @@ class ContentViewModel: ObservableObject {
                 for try await output in session.outputs {
                     await MainActor.run {
                         switch output {
-                        case .processingComplete:
-                            logger.log("Processing was completed!")
-                            resetStatus()
+                        case .inputComplete:
+                            handleInputComplete()
                         case .requestError(let request, let error):
-                            logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
+                            handleRequestError(request: request, error: error)
                         case .requestComplete(let request, let result):
                             handleRequestComplete(request: request, result: result)
                         case .requestProgress(let request, let fractionComplete):
-                            handleRequestProgress(request: request, fractionComplete: fractionComplete)
-                        case .inputComplete:
-                            logger.log("Data ingestion is completed. Beginning processing...")
-                        case .invalidSample(let id, let reason):
-                            logger.warning("Invalid Sample! id=\(id) reason=\"\(reason)\"")
-                        case .skippedSample(let id):
-                            logger.warning("Sample id=\(id) was skipped by processing.")
-                        case .automaticDownsampling:
-                            logger.warning("Automatic downsampling was applied!")
-                        case .processingCancelled:
-                            logger.warning("Processing was cancelled.")
+                            handleRequestProgress(
+                                request: request, fractionComplete: fractionComplete)
+                        case .processingComplete:
+                            handleProcessingComplete()
                             resetStatus()
+                        case .processingCancelled:
+                            handleProcessingCancelled()
+                            resetStatus()
+                        case .invalidSample(let id, let reason):
+                            handleInvalidSample(id: id, reason: reason)
+                        case .skippedSample(let id):
+                            handleSkippedSample(id: id)
+                        case .automaticDownsampling:
+                            handleAutomaticDownsampling()
                         @unknown default:
                             logger.error("Unhandled message: \(output.localizedDescription)")
                         }
@@ -129,6 +130,15 @@ class ContentViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    private func handleInputComplete() {
+        logger.log("Data ingestion is completed. Beginning processing...")
+    }
+
+    private func handleRequestError(request: PhotogrammetrySession.Request, error: Error) {
+        logger.error(
+            "Request \(String(describing: request)) had an error: \(String(describing: error))")
     }
 
     private func handleRequestComplete(
@@ -147,6 +157,28 @@ class ContentViewModel: ObservableObject {
         request: PhotogrammetrySession.Request, fractionComplete: Double
     ) {
         self.progress = fractionComplete
+    }
+
+    private func handleProcessingComplete() {
+        logger.log("Processing was completed.")
+        resetStatus()
+    }
+
+    private func handleProcessingCancelled() {
+        logger.warning("Processing was cancelled.")
+        resetStatus()
+    }
+
+    private func handleInvalidSample(id: Int, reason: String) {
+        logger.warning("Sample id=\(id) is invalid. \(String(describing: reason))")
+    }
+
+    private func handleSkippedSample(id: Int) {
+        logger.warning("Sample id=\(id) was skipped by processing.")
+    }
+
+    private func handleAutomaticDownsampling() {
+        logger.warning("Automatic downsampling was applied.")
     }
 
     private func resetStatus() {
