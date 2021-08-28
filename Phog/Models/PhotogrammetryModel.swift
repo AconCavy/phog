@@ -6,17 +6,16 @@ struct PhotogrammetryModel {
     let output: URL
     let filename: String
     let fileExtension: FileExtension
-    var sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering?
-    var featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity?
-    var detail: PhotogrammetrySession.Request.Detail?
-    var geometry: PhotogrammetrySession.Request.Geometry?
+    let sampleOrdering: SampleOrdering
+    let featureSensitivity: FeatureSensitivity
+    let detail: Detail
 
     init(
-        input: URL, output: URL, filename: String, fileExtension: FileExtension,
-        sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering? = nil,
-        featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity? = nil,
-        detail: PhotogrammetrySession.Request.Detail? = nil,
-        geometry: PhotogrammetrySession.Request.Geometry? = nil
+        input: URL, output: URL, filename: String,
+        fileExtension: FileExtension = .usdz,
+        sampleOrdering: SampleOrdering = .unordered,
+        featureSensitivity: FeatureSensitivity = .normal,
+        detail: Detail = .medium
     ) throws {
 
         self.input = input
@@ -26,7 +25,6 @@ struct PhotogrammetryModel {
         self.sampleOrdering = sampleOrdering
         self.featureSensitivity = featureSensitivity
         self.detail = detail
-        self.geometry = geometry
 
         if !existsDirectory(path: self.input.path) {
             throw OptionError.invalidInput
@@ -40,52 +38,48 @@ struct PhotogrammetryModel {
             throw OptionError.invalidFilename
         }
     }
-}
-
-extension PhotogrammetryModel {
-    func makeSession() throws -> PhotogrammetrySession {
-        let configuration = PhotogrammetryModel.makeConfiguration(
-            sampleOrdering: self.sampleOrdering,
-            featureSensitivity: self.featureSensitivity)
-
-        return try PhotogrammetrySession(input: self.input, configuration: configuration)
-    }
-
-    func makeRequest() -> PhotogrammetrySession.Request {
-        let url = output.appendingPathComponent(filename).appendingPathExtension(
-            fileExtension.rawValue)
-
-        return PhotogrammetryModel.makeRequest(
-            output: url, detail: self.detail, geometry: self.geometry)
-    }
-
-    private static func makeConfiguration(
-        sampleOrdering: PhotogrammetrySession.Configuration.SampleOrdering?,
-        featureSensitivity: PhotogrammetrySession.Configuration.FeatureSensitivity?
-    ) -> PhotogrammetrySession.Configuration {
-        var configuration = PhotogrammetrySession.Configuration()
-        sampleOrdering.map { configuration.sampleOrdering = $0 }
-        featureSensitivity.map { configuration.featureSensitivity = $0 }
-
-        return configuration
-    }
-
-    private static func makeRequest(
-        output: URL, detail: PhotogrammetrySession.Request.Detail?,
-        geometry: PhotogrammetrySession.Request.Geometry?
-    ) -> PhotogrammetrySession.Request {
-
-        if let detail = detail {
-            return PhotogrammetrySession.Request.modelFile(
-                url: output, detail: detail, geometry: geometry)
-        }
-
-        return PhotogrammetrySession.Request.modelFile(url: output, geometry: geometry)
-    }
 
     private func existsDirectory(path: String) -> Bool {
         var isDirectory: ObjCBool = false
         return FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
             && isDirectory.boolValue
+    }
+}
+
+extension PhotogrammetryModel {
+    func makeConfiguration() -> PhotogrammetrySession.Configuration {
+        return PhotogrammetryModel.makeConfiguration(model: self)
+    }
+
+    func makeSession() throws -> PhotogrammetrySession {
+        return try PhotogrammetryModel.makeSession(model: self)
+    }
+
+    func makeRequest() -> PhotogrammetrySession.Request {
+        return PhotogrammetryModel.makeRequest(model: self)
+    }
+
+    static func makeConfiguration(model: PhotogrammetryModel) -> PhotogrammetrySession.Configuration
+    {
+        var configuration = PhotogrammetrySession.Configuration()
+        configuration.sampleOrdering = PhotogrammetrySession.Configuration.SampleOrdering(
+            model.sampleOrdering)
+        configuration.featureSensitivity = PhotogrammetrySession.Configuration.FeatureSensitivity(
+            model.featureSensitivity)
+
+        return configuration
+    }
+
+    static func makeSession(model: PhotogrammetryModel) throws -> PhotogrammetrySession {
+        return try PhotogrammetrySession(
+            input: model.input, configuration: makeConfiguration(model: model))
+    }
+
+    static func makeRequest(model: PhotogrammetryModel) -> PhotogrammetrySession.Request {
+        let url = model.output
+            .appendingPathComponent(model.filename)
+            .appendingPathExtension(model.fileExtension.rawValue)
+        let detail = PhotogrammetrySession.Request.Detail(model.detail)
+        return PhotogrammetrySession.Request.modelFile(url: url, detail: detail)
     }
 }

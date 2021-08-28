@@ -1,28 +1,19 @@
 import RealityKit
 
 enum SampleOrdering: String, CaseIterable, Identifiable {
-    case none
     case unordered
     case sequential
 
     var id: String { self.rawValue }
 }
 
-extension SampleOrdering {
-    func map() -> PhotogrammetrySession.Configuration.SampleOrdering? {
-        return SampleOrdering.map(self)
-    }
-
-    static func map(_ sampleOrdering: SampleOrdering) -> PhotogrammetrySession.Configuration
-        .SampleOrdering?
-    {
+extension PhotogrammetrySession.Configuration.SampleOrdering {
+    init(_ sampleOrdering: SampleOrdering) {
         switch sampleOrdering {
-        case .none:
-            return nil
         case .unordered:
-            return .unordered
+            self = .unordered
         case .sequential:
-            return .sequential
+            self = .sequential
         }
     }
 }

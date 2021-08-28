@@ -10,8 +10,8 @@ class ContentViewModel: ObservableObject {
     @Published var output: URL?
     @Published var filename: String = defaultFilename
     @Published var fileExtension = FileExtension.usdz
-    @Published var sampleOrdering = SampleOrdering.none
-    @Published var featureSensitivity = FeatureSensitivity.none
+    @Published var sampleOrdering = SampleOrdering.unordered
+    @Published var featureSensitivity = FeatureSensitivity.normal
     @Published var detail = Detail.medium
     @Published var isProcessing = false
     @Published var isCancelling = false
@@ -88,8 +88,7 @@ class ContentViewModel: ObservableObject {
 
         return try PhotogrammetryModel(
             input: input, output: output, filename: filename, fileExtension: fileExtension,
-            sampleOrdering: sampleOrdering.map(), featureSensitivity: featureSensitivity.map(),
-            detail: detail.map())
+            sampleOrdering: sampleOrdering, featureSensitivity: featureSensitivity, detail: detail)
     }
 
     private func makeSessionTask(session: PhotogrammetrySession) -> Task<Void, Never> {

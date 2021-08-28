@@ -10,23 +10,19 @@ enum Detail: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
-extension Detail {
-    func map() -> PhotogrammetrySession.Request.Detail {
-        return Detail.map(self)
-    }
-
-    static func map(_ detail: Detail) -> PhotogrammetrySession.Request.Detail {
+extension PhotogrammetrySession.Request.Detail {
+    init(_ detail: Detail) {
         switch detail {
         case .preview:
-            return .preview
+            self = .preview
         case .reduced:
-            return .reduced
+            self = .reduced
         case .medium:
-            return .medium
+            self = .medium
         case .full:
-            return .full
+            self = .full
         case .raw:
-            return .raw
+            self = .raw
         }
     }
 }

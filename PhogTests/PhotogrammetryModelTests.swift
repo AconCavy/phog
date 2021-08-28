@@ -17,9 +17,7 @@ class PhotogrammetryModelTests: XCTestCase {
         let input = sampleDirectoryURL
         let output = sampleDirectoryURL
         let filename = sampleFilename
-        XCTAssertNoThrow(
-            try PhotogrammetryModel(
-                input: input, output: output, filename: filename, fileExtension: .usdz))
+        XCTAssertNoThrow(try PhotogrammetryModel(input: input, output: output, filename: filename))
     }
 
     func testInitThrowsInvalidInput() {
@@ -27,8 +25,7 @@ class PhotogrammetryModelTests: XCTestCase {
         let output = sampleDirectoryURL
         let filename = sampleFilename
         XCTAssertThrowsError(
-            try PhotogrammetryModel(
-                input: input, output: output, filename: filename, fileExtension: .usdz)
+            try PhotogrammetryModel(input: input, output: output, filename: filename)
         ) { error in
             XCTAssertEqual(error as! OptionError, .invalidInput)
         }
@@ -39,8 +36,7 @@ class PhotogrammetryModelTests: XCTestCase {
         let output = sampleFileURL
         let filename = sampleFilename
         XCTAssertThrowsError(
-            try PhotogrammetryModel(
-                input: input, output: output, filename: filename, fileExtension: .usdz)
+            try PhotogrammetryModel(input: input, output: output, filename: filename)
         ) { error in
             XCTAssertEqual(error as! OptionError, .invalidOutput)
         }
@@ -51,8 +47,7 @@ class PhotogrammetryModelTests: XCTestCase {
         let output = sampleDirectoryURL
         let filename = ""
         XCTAssertThrowsError(
-            try PhotogrammetryModel(
-                input: input, output: output, filename: filename, fileExtension: .usdz)
+            try PhotogrammetryModel(input: input, output: output, filename: filename)
         ) { error in
             XCTAssertEqual(error as! OptionError, .invalidFilename)
         }
