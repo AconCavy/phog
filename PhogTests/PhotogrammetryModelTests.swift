@@ -42,7 +42,22 @@ class PhotogrammetryModelTests: XCTestCase {
         }
     }
 
-    func testInitThrowsInvalidFilename() {
+    func testInitThrowsInvalidFilenameWithInvalidCharacters() {
+        let cases = ["/", "\\", ":", "\0"]
+
+        for c in cases {
+            let input = sampleDirectoryURL
+            let output = sampleDirectoryURL
+            let filename = "foo\(c)bar"
+            XCTAssertThrowsError(
+                try PhotogrammetryModel(input: input, output: output, filename: filename)
+            ) { error in
+                XCTAssertEqual(error as! OptionError, .invalidFilename)
+            }
+        }
+    }
+
+    func testInitThrowsInvalidFilenameWithEmptyFilename() {
         let input = sampleDirectoryURL
         let output = sampleDirectoryURL
         let filename = ""

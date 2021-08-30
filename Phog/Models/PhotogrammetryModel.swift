@@ -34,7 +34,12 @@ struct PhotogrammetryModel {
             throw OptionError.invalidOutput
         }
 
-        if self.filename.isEmpty {
+        let regex = try! NSRegularExpression(
+            pattern: "[\\\\/:\0]", options: NSRegularExpression.Options())
+        let matches = regex.matches(
+            in: self.filename, options: NSRegularExpression.MatchingOptions(),
+            range: NSMakeRange(0, self.filename.count))
+        if self.filename.isEmpty || matches.count > 0 {
             throw OptionError.invalidFilename
         }
     }
