@@ -2,6 +2,7 @@ import Foundation
 import RealityKit
 import SwiftUI
 
+@MainActor
 class ContentViewModel: ObservableObject {
     static let defaultFilename = "modelFile"
 
@@ -17,7 +18,7 @@ class ContentViewModel: ObservableObject {
     @Published var isCancelling = false
     @Published var progress: Double = 0
 
-    var session: PhotogrammetrySession?
+    private var session: PhotogrammetrySession?
 
     func runGeneration() {
         let model: PhotogrammetryModel
@@ -49,11 +50,12 @@ class ContentViewModel: ObservableObject {
         logger.log("Start to processing...")
         self.isProcessing = true
         self.session = session
-        let task = makeSessionTask(session: session)
-        withExtendedLifetime((session, task)) {
+        let handleSessionOutputsTask = Task { await handleSessionOutputs(session) }
+        let request = model.makeRequest()
+        logger.log("Using request \(String(describing: request))")
+
+        withExtendedLifetime((session, handleSessionOutputsTask)) {
             do {
-                let request = model.makeRequest()
-                logger.log("Using request \(String(describing: request))")
                 try session.process(requests: [request])
             } catch {
                 logger.error(String(describing: error))
@@ -62,11 +64,7 @@ class ContentViewModel: ObservableObject {
     }
 
     func cancelGeneration() {
-        guard !isCancelling else {
-            return
-        }
-
-        guard let session = session, session.isProcessing else {
+        guard !self.isCancelling, let session = self.session, session.isProcessing else {
             return
         }
 
@@ -91,43 +89,37 @@ class ContentViewModel: ObservableObject {
             sampleOrdering: sampleOrdering, featureSensitivity: featureSensitivity, detail: detail)
     }
 
-    private func makeSessionTask(session: PhotogrammetrySession) -> Task<Void, Never> {
-        return Task {
-            do {
-                for try await output in session.outputs {
-                    await MainActor.run {
-                        switch output {
-                        case .inputComplete:
-                            handleInputComplete()
-                        case .requestError(let request, let error):
-                            handleRequestError(request: request, error: error)
-                        case .requestComplete(let request, let result):
-                            handleRequestComplete(request: request, result: result)
-                        case .requestProgress(let request, let fractionComplete):
-                            handleRequestProgress(
-                                request: request, fractionComplete: fractionComplete)
-                        case .processingComplete:
-                            handleProcessingComplete()
-                            resetStatus()
-                        case .processingCancelled:
-                            handleProcessingCancelled()
-                            resetStatus()
-                        case .invalidSample(let id, let reason):
-                            handleInvalidSample(id: id, reason: reason)
-                        case .skippedSample(let id):
-                            handleSkippedSample(id: id)
-                        case .automaticDownsampling:
-                            handleAutomaticDownsampling()
-                        @unknown default:
-                            logger.error("Unhandled message: \(output.localizedDescription)")
-                        }
+    nonisolated private func handleSessionOutputs(_ session: PhotogrammetrySession) async {
+        do {
+            for try await output in session.outputs {
+                await MainActor.run {
+                    switch output {
+                    case .inputComplete:
+                        handleInputComplete()
+                    case .requestError(let request, let error):
+                        handleRequestError(request: request, error: error)
+                    case .requestComplete(let request, let result):
+                        handleRequestComplete(request: request, result: result)
+                    case .requestProgress(let request, let fractionComplete):
+                        handleRequestProgress(request: request, fractionComplete: fractionComplete)
+                    case .processingComplete:
+                        handleProcessingComplete()
+                    case .processingCancelled:
+                        handleProcessingCancelled()
+                    case .invalidSample(let id, let reason):
+                        handleInvalidSample(id: id, reason: reason)
+                    case .skippedSample(let id):
+                        handleSkippedSample(id: id)
+                    case .automaticDownsampling:
+                        handleAutomaticDownsampling()
+                    @unknown default:
+                        logger.error("Unhandled message: \(output.localizedDescription)")
                     }
                 }
-            } catch {
-                await MainActor.run {
-                    logger.error(String(describing: error))
-                    resetStatus()
-                }
+            }
+        } catch {
+            await MainActor.run {
+                logger.error(String(describing: error))
             }
         }
     }
