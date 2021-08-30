@@ -14,8 +14,10 @@ struct ContentView: View {
                     .bold()
                 Text(viewModel.input?.path ?? ContentView.notSelected)
                 Button("Select Input Directory") {
-                    openDirectoryPicker { url in
-                        viewModel.input = url
+                    Task {
+                        if let url = await getDirectoryURL() {
+                            await MainActor.run { viewModel.input = url }
+                        }
                     }
                 }
             }
@@ -25,8 +27,10 @@ struct ContentView: View {
                     .bold()
                 Text(viewModel.output?.path ?? ContentView.notSelected)
                 Button("Select Output Directory") {
-                    openDirectoryPicker { url in
-                        viewModel.output = url
+                    Task {
+                        if let url = await getDirectoryURL() {
+                            await MainActor.run { viewModel.output = url }
+                        }
                     }
                 }
             }
@@ -127,7 +131,14 @@ struct ContentView: View {
         .frame(width: ContentView.viewWidth, height: ContentView.viewHeight)
     }
 
-    private func openDirectoryPicker(callback: ((URL?) -> Void)? = nil) {
+    @MainActor
+    private func getDirectoryURL() async -> URL? {
+        let (picker, response) = await openDirectoryPicker()
+        return response == .OK ? picker.url : nil
+    }
+
+    @MainActor
+    private func openDirectoryPicker() async -> (NSOpenPanel, NSApplication.ModalResponse) {
         let rect = NSRect(x: 0, y: 0, width: 500, height: 600)
         let picker = NSOpenPanel(
             contentRect: rect, styleMask: .utilityWindow, backing: .buffered, defer: true)
@@ -135,15 +146,8 @@ struct ContentView: View {
         picker.canChooseDirectories = true
         picker.canChooseFiles = false
 
-        guard let callback = callback else {
-            return
-        }
-
-        picker.begin { response in
-            if response == .OK {
-                callback(picker.url)
-            }
-        }
+        let response = await picker.begin()
+        return (picker, response)
     }
 }
 
