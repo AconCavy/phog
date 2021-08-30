@@ -74,15 +74,15 @@ class ContentViewModel: ObservableObject {
     }
 
     private func makeModel() throws -> PhotogrammetryModel {
-        guard let input = input else {
+        guard let input = self.input else {
             throw OptionError.invalidInput
         }
 
-        guard let output = output else {
+        guard let output = self.output else {
             throw OptionError.invalidOutput
         }
 
-        let filename = filename.isEmpty ? ContentViewModel.defaultFilename : filename
+        let filename = self.filename.isEmpty ? ContentViewModel.defaultFilename : self.filename
 
         return try PhotogrammetryModel(
             input: input, output: output, filename: filename, fileExtension: fileExtension,
