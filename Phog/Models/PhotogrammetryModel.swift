@@ -35,7 +35,7 @@ struct PhotogrammetryModel {
         }
 
         let regex = try! NSRegularExpression(
-            pattern: "[\\\\/:\0]", options: NSRegularExpression.Options())
+            pattern: "[\\\\/:\0]|\\.$", options: NSRegularExpression.Options())
         let matches = regex.matches(
             in: self.filename, options: NSRegularExpression.MatchingOptions(),
             range: NSMakeRange(0, self.filename.count))
