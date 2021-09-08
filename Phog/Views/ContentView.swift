@@ -162,7 +162,7 @@ struct ContentView: View {
             }
         }
         .padding()
-        .frame(width: ContentView.viewWidth, height: ContentView.viewHeight)
+        .frame(minWidth: ContentView.viewWidth, minHeight: ContentView.viewHeight)
     }
 
     @MainActor
