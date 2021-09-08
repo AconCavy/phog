@@ -10,8 +10,13 @@ struct ContentView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Group {
-                Text("Input Directory")
-                    .bold()
+                HStack {
+                    Text("Input Directory")
+                        .bold()
+                    Image(systemName: "questionmark.circle")
+                        .help("A URL pointing to a directory of images.")
+                }
+
                 Text(viewModel.input?.path ?? ContentView.notSelected)
                 Button("Select Input Directory") {
                     Task {
@@ -23,8 +28,13 @@ struct ContentView: View {
             }
 
             Group {
-                Text("Output Directory")
-                    .bold()
+                HStack {
+                    Text("Output Directory")
+                        .bold()
+                    Image(systemName: "questionmark.circle")
+                        .help("A file URL that points to the output location for this request.")
+                }
+
                 Text(viewModel.output?.path ?? ContentView.notSelected)
                 Button("Select Output Directory") {
                     Task {
@@ -36,8 +46,15 @@ struct ContentView: View {
             }
 
             Group {
-                Text("Output Filename")
-                    .bold()
+                HStack {
+                    Text("Output Filename")
+                        .bold()
+                    Image(systemName: "questionmark.circle")
+                        .help(
+                            "A filename that excluding slash, backslash, colon and the end of the dot are allowed."
+                        )
+                }
+
                 HStack {
                     TextField(ContentViewModel.defaultFilename, text: $viewModel.filename)
                     Picker("Extension", selection: $viewModel.fileExtension) {
@@ -50,8 +67,13 @@ struct ContentView: View {
             }
 
             Group {
-                Text("Sample Ordering")
-                    .bold()
+                HStack {
+                    Text("Sample Ordering")
+                        .bold()
+                    Image(systemName: "questionmark.circle")
+                        .help("The order of the image samples.")
+                }
+
                 Picker("Sample Ordering", selection: $viewModel.sampleOrdering) {
                     ForEach(SampleOrdering.allCases, id: \.self) { value in
                         Text(value.rawValue.capitalized)
@@ -61,8 +83,13 @@ struct ContentView: View {
             }
 
             Group {
-                Text("Feature Sensitivity")
-                    .bold()
+                HStack {
+                    Text("Feature Sensitivity")
+                        .bold()
+                    Image(systemName: "questionmark.circle")
+                        .help("The precision of landmark detection.")
+                }
+
                 Picker("Feature Sensitivity", selection: $viewModel.featureSensitivity) {
                     ForEach(FeatureSensitivity.allCases, id: \.self) { value in
                         Text(value.rawValue.capitalized)
@@ -72,8 +99,15 @@ struct ContentView: View {
             }
 
             Group {
-                Text("Detail")
-                    .bold()
+                HStack {
+                    Text("Detail")
+                        .bold()
+                    Image(systemName: "questionmark.circle")
+                        .help(
+                            "Supported levels of detail for a request. The texture map sizes Preview(1024x1024), Reduced(2048x2048), Medium(4096x4096), Full(8192x8192), and Raw(8192x8192 multiple) will be generated."
+                        )
+                }
+
                 Picker("Detail", selection: $viewModel.detail) {
                     ForEach(Detail.allCases, id: \.self) { value in
                         Text(value.rawValue.capitalized)
