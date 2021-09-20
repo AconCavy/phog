@@ -5,7 +5,14 @@ struct ContentView: View {
     static let viewHeight: CGFloat = 800
     static let notSelected = "Not Selcted"
 
-    @ObservedObject var viewModel: ContentViewModel = ContentViewModel()
+    @ObservedObject var console: LogConsole
+    @ObservedObject var viewModel: ContentViewModel
+
+    init() {
+        let console = LogConsole()
+        self.console = console
+        self.viewModel = ContentViewModel(logger: console)
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -138,14 +145,14 @@ struct ContentView: View {
                         .bold()
                     Spacer()
                     Button("Clear") {
-                        viewModel.logger.clear()
+                        console.clear()
                     }
                 }
 
                 ScrollView {
                     LazyVStack(alignment: .leading) {
-                        ForEach(viewModel.logger.output.indices, id: \.self) { index in
-                            let (type, message) = viewModel.logger.output[index]
+                        ForEach(console.output.indices, id: \.self) { index in
+                            let (type, message) = console.output[index]
                             switch type {
                             case .log:
                                 Text(message)

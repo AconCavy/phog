@@ -3,10 +3,9 @@ import RealityKit
 import SwiftUI
 
 @MainActor
-class ContentViewModel: ObservableObject {
+class ContentViewModel: ObservableObject, OutputHandleable {
     static let defaultFilename = "modelFile"
 
-    @Published var logger = LogConsole()
     @Published var input: URL?
     @Published var output: URL?
     @Published var filename: String = defaultFilename
@@ -18,7 +17,12 @@ class ContentViewModel: ObservableObject {
     @Published var isCancelling = false
     @Published var progress: Double = 0
 
-    private var session: PhotogrammetrySession?
+    private let logger: Loggable
+    private var task: Task<Void, Never>?
+
+    init(logger: Loggable) {
+        self.logger = logger
+    }
 
     func runGeneration() {
         let model: PhotogrammetryModel
@@ -38,39 +42,26 @@ class ContentViewModel: ObservableObject {
             return
         }
 
-        let session: PhotogrammetrySession
-
-        do {
-            session = try model.makeSession()
-        } catch {
-            logger.error("Failed to make session. Please check the minumum execution environment")
-            return
-        }
-
-        logger.log("Start to processing...")
+        let processor = PhotogrammetryProcessor(logger: self.logger, handler: self)
+        //        let processor = MockProcessor(logger: self.logger, handler: self)
         self.isProcessing = true
-        self.session = session
-        let handleSessionOutputsTask = Task { await handleSessionOutputs(session) }
-        let request = model.makeRequest()
-        logger.log("Using request \(String(describing: request))")
-
-        withExtendedLifetime((session, handleSessionOutputsTask)) {
-            do {
-                try session.process(requests: [request])
-            } catch {
-                logger.error(String(describing: error))
+        task = Task {
+            await processor.process(model: model)
+            await MainActor.run {
+                resetStatus()
             }
         }
     }
 
     func cancelGeneration() {
-        guard !self.isCancelling, let session = self.session, session.isProcessing else {
+        guard !self.isCancelling, let task = self.task else {
             return
         }
 
         logger.log("Cancel to processing...")
         self.isCancelling = true
-        session.cancel()
+        task.cancel()
+        resetStatus()
     }
 
     private func makeModel() throws -> PhotogrammetryModel {
@@ -89,51 +80,16 @@ class ContentViewModel: ObservableObject {
             sampleOrdering: sampleOrdering, featureSensitivity: featureSensitivity, detail: detail)
     }
 
-    nonisolated private func handleSessionOutputs(_ session: PhotogrammetrySession) async {
-        do {
-            for try await output in session.outputs {
-                await MainActor.run {
-                    switch output {
-                    case .inputComplete:
-                        handleInputComplete()
-                    case .requestError(let request, let error):
-                        handleRequestError(request: request, error: error)
-                    case .requestComplete(let request, let result):
-                        handleRequestComplete(request: request, result: result)
-                    case .requestProgress(let request, let fractionComplete):
-                        handleRequestProgress(request: request, fractionComplete: fractionComplete)
-                    case .processingComplete:
-                        handleProcessingComplete()
-                    case .processingCancelled:
-                        handleProcessingCancelled()
-                    case .invalidSample(let id, let reason):
-                        handleInvalidSample(id: id, reason: reason)
-                    case .skippedSample(let id):
-                        handleSkippedSample(id: id)
-                    case .automaticDownsampling:
-                        handleAutomaticDownsampling()
-                    @unknown default:
-                        logger.error("Unhandled message: \(output.localizedDescription)")
-                    }
-                }
-            }
-        } catch {
-            await MainActor.run {
-                logger.error(String(describing: error))
-            }
-        }
-    }
-
-    private func handleInputComplete() {
+    func handleInputComplete() {
         logger.log("Data ingestion is completed. Beginning processing...")
     }
 
-    private func handleRequestError(request: PhotogrammetrySession.Request, error: Error) {
+    func handleRequestError(request: PhotogrammetrySession.Request, error: Error) {
         logger.error(
             "Request \(String(describing: request)) had an error: \(String(describing: error))")
     }
 
-    private func handleRequestComplete(
+    func handleRequestComplete(
         request: PhotogrammetrySession.Request, result: PhotogrammetrySession.Result
     ) {
         logger.log("Request complete: \(String(describing: request)) with result...")
@@ -145,31 +101,27 @@ class ContentViewModel: ObservableObject {
         }
     }
 
-    private func handleRequestProgress(
-        request: PhotogrammetrySession.Request, fractionComplete: Double
-    ) {
+    func handleRequestProgress(request: PhotogrammetrySession.Request, fractionComplete: Double) {
         self.progress = fractionComplete
     }
 
-    private func handleProcessingComplete() {
+    func handleProcessingComplete() {
         logger.log("Processing was completed.")
-        resetStatus()
     }
 
-    private func handleProcessingCancelled() {
+    func handleProcessingCancelled() {
         logger.warning("Processing was cancelled.")
-        resetStatus()
     }
 
-    private func handleInvalidSample(id: Int, reason: String) {
+    func handleInvalidSample(id: Int, reason: String) {
         logger.warning("Sample id=\(id) is invalid. \(String(describing: reason))")
     }
 
-    private func handleSkippedSample(id: Int) {
+    func handleSkippedSample(id: Int) {
         logger.warning("Sample id=\(id) was skipped by processing.")
     }
 
-    private func handleAutomaticDownsampling() {
+    func handleAutomaticDownsampling() {
         logger.warning("Automatic downsampling was applied.")
     }
 

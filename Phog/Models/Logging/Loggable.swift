@@ -1,5 +1,6 @@
+@MainActor
 protocol Loggable {
-    mutating func log(_ message: String)
-    mutating func warning(_ message: String)
-    mutating func error(_ message: String)
+    func log(_ message: String)
+    func warning(_ message: String)
+    func error(_ message: String)
 }

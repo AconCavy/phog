@@ -2,10 +2,11 @@ import XCTest
 
 @testable import Phog
 
+@MainActor
 class LogConsoleTests: XCTestCase {
 
     func testLog() {
-        var sut = LogConsole()
+        let sut = LogConsole()
 
         let message = "Foo"
         sut.log(message)
@@ -19,7 +20,7 @@ class LogConsoleTests: XCTestCase {
     }
 
     func testWarning() {
-        var sut = LogConsole()
+        let sut = LogConsole()
 
         let message = "Foo"
         sut.warning(message)
@@ -33,7 +34,7 @@ class LogConsoleTests: XCTestCase {
     }
 
     func testError() {
-        var sut = LogConsole()
+        let sut = LogConsole()
 
         let message = "Foo"
         sut.error(message)
