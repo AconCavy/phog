@@ -1,5 +1,5 @@
 @MainActor
-protocol Loggable {
+protocol Loggable: AnyObject {
     func log(_ message: String)
     func warning(_ message: String)
     func error(_ message: String)

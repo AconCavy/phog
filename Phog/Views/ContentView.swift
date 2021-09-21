@@ -11,7 +11,8 @@ struct ContentView: View {
     init() {
         let console = LogConsole()
         self.console = console
-        self.viewModel = ContentViewModel(logger: console)
+        let processor = PhotogrammetryProcessor()
+        self.viewModel = ContentViewModel(logger: console, processor: processor)
     }
 
     var body: some View {

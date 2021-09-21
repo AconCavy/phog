@@ -1,13 +1,8 @@
 import RealityKit
 
 class PhotogrammetryProcessor: PhotogrammetryProcessable {
-    let logger: Loggable?
-    let handler: OutputHandleable?
-
-    init(logger: Loggable? = nil, handler: OutputHandleable? = nil) {
-        self.logger = logger
-        self.handler = handler
-    }
+    weak var logger: Loggable?
+    weak var handler: OutputHandleable?
 
     func process(model: PhotogrammetryModel) async {
         let session: PhotogrammetrySession

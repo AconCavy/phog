@@ -1,7 +1,7 @@
 import RealityKit
 
 @MainActor
-protocol OutputHandleable {
+protocol OutputHandleable: AnyObject {
     func handleInputComplete()
     func handleRequestError(request: PhotogrammetrySession.Request, error: Error)
     func handleRequestComplete(

@@ -18,10 +18,14 @@ class ContentViewModel: ObservableObject, OutputHandleable {
     @Published var progress: Double = 0
 
     private let logger: Loggable
+    private let processor: PhotogrammetryProcessable
     private var task: Task<Void, Never>?
 
-    init(logger: Loggable) {
+    init(logger: Loggable, processor: PhotogrammetryProcessable) {
         self.logger = logger
+        self.processor = processor
+        self.processor.logger = self.logger
+        self.processor.handler = self
     }
 
     func runGeneration() {
@@ -42,8 +46,6 @@ class ContentViewModel: ObservableObject, OutputHandleable {
             return
         }
 
-        let processor = PhotogrammetryProcessor(logger: self.logger, handler: self)
-        //        let processor = MockProcessor(logger: self.logger, handler: self)
         self.isProcessing = true
         task = Task {
             await processor.process(model: model)

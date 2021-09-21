@@ -1,16 +1,10 @@
 import RealityKit
 
 class MockProcessor: PhotogrammetryProcessable {
-    let logger: Loggable?
-    let handler: OutputHandleable?
+    weak var logger: Loggable?
+    weak var handler: OutputHandleable?
 
-    var isProcessing: Bool
-
-    init(logger: Loggable? = nil, handler: OutputHandleable? = nil) {
-        self.logger = logger
-        self.handler = handler
-        isProcessing = false
-    }
+    var isProcessing: Bool = false
 
     func process(model: PhotogrammetryModel) async {
         let request = model.makeRequest()
